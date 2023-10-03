@@ -3,4 +3,4 @@ Arduino program for the piece of Alejandro Almanza Pereda and Carrie Olivia Adam
 
 # libraries
 
-This program just uses shifty library. You can find it [hereere]([https://link-url-here.org](https://github.com/johnnyb/Shifty)https://github.com/johnnyb/Shifty)
+This program just uses shifty library. You can find it [here]([https://link-url-here.org](https://github.com/johnnyb/Shifty)https://github.com/johnnyb/Shifty).
