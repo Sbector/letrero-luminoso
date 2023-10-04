@@ -9,29 +9,23 @@ Shifty shift;
 
 // intervals between syllables and words
 int lightsOn = 1000; // Time with lights on
-int betweenSegments = 10;
+int betweenSegments = 10; // Time between segments
 
 // list of words and syllables with their respective array length
 
 int ani[] = {17,20,22,24,25,28,30,31};
-int aniS[] = {25,30,31,24,17,28,22,20};
 int aniL = 8;
 int mal[] = {17,22,23,24,25,27,28,31,32};
-int malS[] = {24,31,28,32,23,17,27,22,25};
 int malL = 9;
 
 int cen[] = {8,9,15,17,18,20,22,25,28,30};
-int cenS[] = {25,20,28,8,15,22,30,9,18,17};
 int cenL = 10;
 int tral[] = {4,5,8,11,12,14,17,20,22,24,25,26};
-int tralS[] = {25,26,24,14,22,11,4,5,12,20,8,17};
 int tralL = 12;
 
 int cri[] = {8,9,14,17,19,20,21,25};
-int criS[] = {21,20,19,9,14,8,17,25};
 int criL = 8;
 int sis[] = {10,12,13,18,22,23,26,28,29};
-int sisS[] = {26,23,13,18,22,28,29,12,10};
 int sisL = 9;
 
 int error[] = {1,2,3,4,8,11,12,14,17,19,20,21,25,26,29,30,31,33,34,35,36};
@@ -69,7 +63,7 @@ void setup() {
 
   // Starts the cicle of words
 
-  turnLightsOn(error,errorL,lightsOn);
+  turnLightsOn(grave,graveL,lightsOn);
 }
 
 void loop(){
