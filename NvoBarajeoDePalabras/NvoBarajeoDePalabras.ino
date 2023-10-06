@@ -85,7 +85,7 @@ void setup() {
   // TurnLightsOn function example
   // The arguments are the two arrays (normal and shuffled), the arrays length,
   // and the min and max time between segments. The min recomended is 70 ms
-  turnLightsOn(ani,aniS,aniL,70,1000);
+  turnLightsOn(error,errorS,errorL,70,1000);
 }
 
 void loop(){
