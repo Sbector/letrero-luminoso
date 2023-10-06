@@ -65,13 +65,12 @@ int on[] = {17,18,22,24,25,28,30};
 int onS[] = {17,18,22,24,25,28,30};
 int onL = 7;
 
-void turnLightsOnObsolete(,int[],int,int); // Declare the function turnLightsOnObsolete
 
 // Declare turnLightsOn function
 // It has 3 arguments the two array lists (normal and shuffled), the array length,
 // the minimum and the maximun time between segments.
-
 void turnLightsOn(int[],int[],int,int,int);
+
 
 void setup() {
   Serial.begin(9600); // Serial for console
@@ -81,8 +80,12 @@ void setup() {
   turnAllOff(); // Turn all lights off and wait 5 seconds
   delay(5000);
 
-  // Starts the cicle of words
+  randomSeed(analogRead(0)); // Starts a random seed
 
+  // TurnLightsOn function example
+  // The arguments are the two arrays (normal and shuffled), the arrays length,
+  // and the min and max time between segments. The min recomended is 70 ms
+  turnLightsOn(ani,aniS,aniL,70,1000);
 }
 
 void loop(){
@@ -95,26 +98,40 @@ void turnAllOff(){
   }
 }
 
-void turnLightsOnObsolete(int b[], int bL, int t){
-  for (int j = 0; j < bL; j++){
-    shift.writeBit(b[j]-1,LOW); // Rest a digit because shift register starts on 0
-    Serial.print(b[j]);
-    Serial.print(",");
-    delay(betweenSegments);
-  }
-  delay(t);
-  Serial.println("next");
-}
 
 void turnLightsOn(int array[], int arrayS[], int arrayLength, int minTime, int maxTime){
+  
+  // Gives a random number between 0 and 2 to select a program
   int randomNumber = random(3);
+  // Gives a random time between the args min and max time
   int randomTime = random(minTime, maxTime);
 
+  // The fist mode turns the lights on from left to right
   if(randomNumber == 0){
-    Serial.println("programa1");
+    Serial.println("Mode1");
+    for(int a = 0; a < arrayLength; a++){
+      shift.writeBit(array[a]-1, LOW);
+      Serial.print(array[a]);
+      Serial.print(",");
+      delay(randomTime);
+    }
+  // The second mode turns the lights on right to left
   } else if(randomNumber == 1) {
     Serial.println("programa2");
+    for(int b = arrayLength; b > 0; b--){
+      shift.writeBit(array[b]-1, LOW);
+      Serial.print(array[b]);
+      Serial.print(",");
+      delay(randomTime);
+    }
+  // The third mode turns the lights in a random order
   } else if(randomNumber == 2) {
     Serial.println("programa3");
+    for(int c = 0; c < arrayLength; c++){
+      shift.writeBit(arrayS[c]-1,LOW);
+      Serial.print(arrayS[c]);
+      Serial.print(",")
+      delay(randomTime);
+    }
   }
 }
