@@ -16,7 +16,7 @@ class Word{
   public:
 
     // Args
-    bool segmented;             // Is segmented
+    bool segmented;             // Is segmented?
     int* firstSegment;          // First segment list of lights
     int* invertedFirstSegment;  // First segment inverted list of lights
     int* shuffledFirstSegment;  // First segment suffled list of  lights
