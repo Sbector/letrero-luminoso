@@ -20,62 +20,17 @@ class Word{
     int secondSyllableLength;
 
 
-    /// This function can be reused to turn lights on 
-    void getInfo(){
-      //
-      if(segmented){
-        Serial.println("Segmented");
-        Serial.println("List of first segments lights");
-        int i = 0;
-        while(i < firstSyllableLength){
-          Serial.println(firstSyllable[i]);
-          i++;
-        }
-        Serial.println("Shuffled list of first segment lights");
-        int j = 0;
-        while(j < firstSyllableLength){
-          Serial.println(shuffledFirstSyllable[j]);
-          j++;
-        }
-        Serial.println("List of second segment lights");
-        int a = 0;
-        while(a < secondSyllableLength){
-          Serial.println(secondSyllable[a]);
-          a++;
-        }
-        Serial.println("Shuffled list of second segment lights");
-        int b = 0;
-        while(b < secondSyllableLength){
-          Serial.println(shuffledSecondSyllable[b]);
-          b++;
-        }
-      } 
-      else {
-        Serial.println("Not Segmented");
-        Serial.println("List of word lights");
-        int x = 0;
-        while(x < firstSyllableLength){
-          Serial.println(firstSyllable[x]);
-          x++;
-        }
-        Serial.println("Shuffled list of word lights");
-        int y = 0;
-        while(y < firstSyllableLength){
-          Serial.println(shuffledFirstSyllable[y]);
-          y++;
-        }
-      }
-    }
-
+    /// This function turns all the lights off 
+    
     void turnAllOff(){
       for (int i = 0 ; i <= totalBits; i++){
           shift.writeBit(i, HIGH);
         }
       }
 
-    // TurnLightsOn method
+    // LeftToRight method
 
-    void turnLightsOn(int interval){
+    void leftToRight(int interval){
       if(segmented){
         int i = 0;
         while(i<firstSyllableLength){
@@ -101,6 +56,36 @@ class Word{
           shift.writeBit(firstSyllable[a]-1, LOW);
           delay(interval);
           a++;
+        }
+        delay(interval);
+        turnAllOff();
+        delay(500);
+      }    
+    }
+
+    // Rigth to left method
+    void rightToLeft(int interval){
+      if(segmented){
+        for(int b = firstSyllableLength; b > 0; b--){
+          shift.writeBit(firstSyllable[b]-1, LOW);
+          delay(interval);
+        }
+        delay(interval);
+        turnAllOff();
+        delay(500);
+        for(int c = secondSyllableLength; c > 0; c--){
+          shift.writeBit(firstSyllable[c]-1, LOW);
+          delay(interval);
+        }
+        delay(interval);
+        turnAllOff();
+      }
+      else {
+        int a = firstSyllableLength;
+        while(a<=0){
+          shift.writeBit(firstSyllable[a]-1, LOW);
+          delay(interval);
+          a--;
         }
         delay(interval);
         turnAllOff();
@@ -144,18 +129,23 @@ void setup() {
   error.shuffledFirstSyllable = errorS;
   error.firstSyllableLength = errorL;
   
-  animal.getInfo();
-  error.getInfo();
   turnAllOff();
   Serial.println("all lights off");
 }
 
 void loop() {
   // put your main code here, to run repeatedly:
-  animal.turnLightsOn(120);
+  animal.leftToRight(120);
   turnAllOff();
   delay(1000);
-  error.turnLightsOn(120);
+  error.leftToRight(120);
+  turnAllOff();
+  delay(1000);
+
+  animal.rightToLeft(120);
+  turnAllOff();
+  delay(1000);
+  error.rightToLeft(120);
   turnAllOff();
   delay(1000);
 }
