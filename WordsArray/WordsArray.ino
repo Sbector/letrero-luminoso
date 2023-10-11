@@ -1,26 +1,37 @@
+// Include Shifty library "https://github.com/johnnyb/Shifty"
 #include <Shifty.h>
 
+// Define Shifty pins
 int totalBits = 40;
 int latch = 7;
 int clk = 8;
 int data = 9;
 
+// Create shift object
 Shifty shift;
 
-// Define Class
+// Define class Word
 
 class Word{
   public:
-    bool segmented;
-    int* firstSegment;
-    int* invertedFirstSegment;
-    int* shuffledFirstSegment;
-    int firstSegmentLength;
-    int* secondSegment;
-    int* invertedSecondSegment;
-    int* shuffledSecondSegment;
-    int secondSegmentLength;
 
+    // Args
+    bool segmented;             // Is segmented
+    int* firstSegment;          // First segment list of lights
+    int* invertedFirstSegment;  // First segment inverted list of lights
+    int* shuffledFirstSegment;  // First segment suffled list of  lights
+    int firstSegmentLength;     // First segment list of ligths length
+    int* secondSegment;         // Second segment list of lights
+    int* invertedSecondSegment; // Second segment inverted list of lights
+    int* shuffledSecondSegment; // Second segment shuffled list of lights
+    int secondSegmentLength;    // Secong segment list of lights length
+
+    // METHODS
+
+    // Turn lights off
+
+    // This method recives one interval argument that defines how long
+    // the lights remain off. This method is inside other methods.
     void turnLightsOff(int interval){
       for (int i = 0 ; i <= totalBits; i++){
         shift.writeBit(i, HIGH);
@@ -28,6 +39,9 @@ class Word{
       delay(interval);
     }
 
+    // Cursor
+
+    // This is a blinking light that simulates a cursor
     void cursor(){
       for(int i = 0; i < 2; i++){
         shift.writeBit(1,LOW);
@@ -37,6 +51,12 @@ class Word{
       }
     }
 
+    // From left to right
+
+    // This method turn lights on from left to right. It recives two
+    // arguments: interval is the time between turning on one light
+    // and the next, and complete is the time that the segment lights
+    // remain on.
     void fromLeftToRight(int interval, int complete){
       if(segmented){
         for(int i = 0; i < firstSegmentLength; i++){
@@ -44,14 +64,14 @@ class Word{
           delay(interval);
         }
         delay(complete);
-        turnLightsOff(70);
+        turnLightsOff(70); // This may be changed for longer/shorter spaces between segments
         cursor();
         for(int i = 0; i < secondSegmentLength; i++){
           shift.writeBit(secondSegment[i]-1, LOW);
           delay(interval);
         }
         delay(complete);
-        turnLightsOff(70);
+        turnLightsOff(70); // This may be changed for longer/shorter spaces between segments
         cursor();
       }
       else{
@@ -60,11 +80,17 @@ class Word{
           delay(interval);
         }
         delay(complete);
-        turnLightsOff(70);
+        turnLightsOff(70); // This may be changed for longer/shorter spaces between segments
         cursor();
       }
     } 
 
+    // From right to left
+
+    // This method turn lights on from right to left. It recives two
+    // arguments: interval is the time between turning on one light
+    // and the next, and complete is the time that the segment lights
+    // remain on.
     void fromRightToLeft(int interval, int complete){
       if(segmented){
         for(int i = 0; i < firstSegmentLength; i++){
@@ -72,14 +98,14 @@ class Word{
           delay(interval);
         }
         delay(complete);
-        turnLightsOff(70);
+        turnLightsOff(70); // This may be changed for longer/shorter spaces between segments
         cursor();
         for(int i = 0; i < secondSegmentLength; i++){
           shift.writeBit(invertedSecondSegment[i]-1, LOW);
           delay(interval);
         }
         delay(complete);
-        turnLightsOff(70);
+        turnLightsOff(70); // This may be changed for longer/shorter spaces between segments
         cursor();
       }
       else{
@@ -88,11 +114,17 @@ class Word{
           delay(interval);
         }
         delay(complete);
-        turnLightsOff(70);
+        turnLightsOff(70); // This may be changed for longer/shorter spaces between segments
         cursor();
       }
     }
 
+    // Random order
+
+    // This method turn lights on in a random order. It recives two
+    // arguments: interval is the time between turning on one light
+    // and the next, and complete is the time that the segment lights
+    // remain on.
     void randomOrder(int interval, int complete){
       if(segmented){
         for(int i = 0; i < firstSegmentLength; i++){
@@ -100,14 +132,14 @@ class Word{
           delay(interval);
         }
         delay(complete);
-        turnLightsOff(70);
+        turnLightsOff(70); // This may be changed for longer/shorter spaces between segments
         cursor();
         for(int i = 0; i < secondSegmentLength; i++){
           shift.writeBit(shuffledSecondSegment[i]-1, LOW);
           delay(interval);
         }
         delay(complete);
-        turnLightsOff(70);
+        turnLightsOff(70); // This may be changed for longer/shorter spaces between segments
         cursor();
       }
       else{
@@ -116,11 +148,20 @@ class Word{
           delay(interval);
         }
         delay(complete);
-        turnLightsOff(70);
+        turnLightsOff(70); // This may be changed for longer/shorter spaces between segments
         cursor();
       }
     }
 
+    // Slect mode
+
+    // This method is to automate or randomize the selection of one 
+    // of the three turn light methods. It recives three arguments.
+    // The method number: 1 for leftToRight, 2 for rightToLeft and 3
+    // for random order. The other two arguments are the same for the
+    // previous methods. The interval is the time between turning on 
+    // one light and the next, and complete is the time that the segment
+    // lights remain on.
     void selectMode(int modeNumb, int intervalo, int complete){
       if(modeNumb == 0){
         fromLeftToRight(intervalo, complete);
@@ -134,10 +175,12 @@ class Word{
     }
 };
 
-// count
+// Array of words
 
 const int wordCount = 10;
 Word* words = new Word[wordCount];
+
+// List of words arguments
 
 // 1 animal
 
@@ -225,13 +268,17 @@ int onI[] = {30,28,25,24,22,18,17};
 int onS[] = {17,18,22,24,25,28,30};
 int onL = 7;
 
-void setup() {
-  Serial.begin(9600);
-  shift.setBitCount(totalBits); // Set total of bits (multiples of 8)
-  shift.setPins(7,9,8); // Set Shift Register pins
-  
-  randomSeed(analogRead(0));
 
+
+void setup() {
+  Serial.begin(9600);           // Ser a serial for console
+  shift.setBitCount(totalBits); // Set total of bits (multiples of 8)
+  shift.setPins(7,9,8);         // Set Shift Register pins
+  
+  randomSeed(analogRead(0));    // Set a random seed
+
+
+  // Initiailize and define wrods array elements
   words[0].segmented = true;
   words[0].firstSegment = ani;
   words[0].invertedFirstSegment = aniI;
@@ -309,20 +356,28 @@ void setup() {
   words[9].secondSegmentLength = onL;
 
   
-  
+  // Turn all lights off for 5 seconds
   turnAllOff(5000);
   
 }
 
 void loop() {
+
+  // Loop in to the word list in order and assings
+  // a random mode.
   for(int i = 0; i < wordCount; i++){
     words[i].selectMode(random(3),5, 500);
   }
+
+  // Loop randomly into the word list and assings
+  // a random mode.
   for(int i = 0; i < wordCount; i++){
     words[random(10)].selectMode(random(3),5, 500);
   }
 }
 
+// This function turn all lights off and recives one
+// argument for the time the lights remain off.
 void turnAllOff(int interval){
   for (int i = 0 ; i <= totalBits; i++){
     shift.writeBit(i, HIGH);
