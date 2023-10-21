@@ -10,7 +10,7 @@ int data = 9;
 // Create shift object.
 Shifty shift;
 
-// Define class Word.
+// This class represents a Word with options for segmentation and control of its lighting patterns.
 
 class Word{
   public:
