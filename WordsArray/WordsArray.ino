@@ -1,16 +1,16 @@
-// Include Shifty library "https://github.com/johnnyb/Shifty"
+// Include Shifty library from "https://github.com/johnnyb/Shifty"
 #include <Shifty.h>
 
-// Define Shifty pins
+// Define Shifty pins.
 int totalBits = 40;
 int latch = 7;
 int clk = 8;
 int data = 9;
 
-// Create shift object
+// Create shift object.
 Shifty shift;
 
-// Define class Word
+// Define class Word.
 
 class Word{
   public:
@@ -28,9 +28,9 @@ class Word{
 
     // METHODS
 
-    // Turn lights off
+    // Turn lights off.
 
-    // This method recives one interval argument that defines how long
+    // This method receives one interval argument that defines how long
     // the lights remain off. This method is inside other methods.
     void turnLightsOff(int interval){
       for (int i = 0 ; i <= totalBits; i++){
@@ -41,7 +41,7 @@ class Word{
 
     // Cursor
 
-    // This is a blinking light that simulates a cursor
+    // This is a blinking light that simulates a cursor.
     void cursor(){
       for(int i = 0; i < 2; i++){
         shift.writeBit(1,LOW);
@@ -53,9 +53,9 @@ class Word{
 
     // From left to right
 
-    // This method turn lights on from left to right. It recives two
-    // arguments: interval is the time between turning on one light
-    // and the next, and complete is the time that the segment lights
+    // This method turns lights on from left to right. It receives two
+    // arguments: "interval" is the time between turning on one light
+    // and the next, and "complete" is the time that the segment lights
     // remain on.
     void fromLeftToRight(int interval, int complete){
       if(segmented){
@@ -87,7 +87,7 @@ class Word{
 
     // From right to left
 
-    // This method turn lights on from right to left. It recives two
+    // This method turns lights on from right to left. It receives two
     // arguments: interval is the time between turning on one light
     // and the next, and complete is the time that the segment lights
     // remain on.
@@ -121,7 +121,7 @@ class Word{
 
     // Random order
 
-    // This method turn lights on in a random order. It recives two
+    // This method turns lights on in a random order. It receives two
     // arguments: interval is the time between turning on one light
     // and the next, and complete is the time that the segment lights
     // remain on.
@@ -153,10 +153,10 @@ class Word{
       }
     }
 
-    // Slect mode
+    // Select mode
 
-    // This method is to automate or randomize the selection of one 
-    // of the three turn light methods. It recives three arguments.
+    // This method is used to automate or randomize the selection of one 
+    // of the three turn light methods. It receives three arguments.
     // The method number: 1 for leftToRight, 2 for rightToLeft and 3
     // for random order. The other two arguments are the same for the
     // previous methods. The interval is the time between turning on 
@@ -376,7 +376,7 @@ void loop() {
   }
 }
 
-// This function turn all lights off and recives one
+// This function turn all lights off and receives one
 // argument for the time the lights remain off.
 void turnAllOff(int interval){
   for (int i = 0 ; i <= totalBits; i++){
